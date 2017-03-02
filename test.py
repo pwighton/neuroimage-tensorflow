@@ -16,7 +16,7 @@ subject_ids = ['114', '091', '130']
 
 def make_filename_pairs(data_dir, subject_id, norm_filename, aseg_filename):
     return (os.path.join(data_dir, str(subject_id), norm_filename), \
-            os.path.join(data_dir, str(subject_id), norm_filename))
+            os.path.join(data_dir, str(subject_id), aseg_filename))
 
 filename_pairs = [ make_filename_pairs(data_dir, s, norm_filename, aseg_filename) for s in subject_ids ]
 
