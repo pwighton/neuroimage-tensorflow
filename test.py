@@ -3,13 +3,22 @@ import tensorflow as tf
 import nibabel as nib
 import os
 
-# test dataset
-data_dir = '/home/paul/cmet/brainhack/neuroimage-tensorflow/bucker40/'
+# >>> img = nib.load(example_filename)
 
-#filename_pairs = [os.path.join(data_dir,'114/norm.nii.gz'),os.path.join(data_dir,'144/aseg.nii.gz'),
-#                 os.path.join(data_dir,'091/norm.nii.gz'),os.path.join(data_dir,'091/aseg.nii.gz'),
-#                 os.path.join(data_dir,'130/norm.nii.gz'),os.path.join(data_dir,'130/aseg.nii.gz')]
-filename_pairs = [(os.path.join(data_dir,'114/norm.nii.gz'),os.path.join(data_dir,'144/aseg.nii.gz'))]
+# PW 2017/03/01: Following along here:
+#   http://warmspringwinds.github.io/tensorflow/tf-slim/2016/12/21/tfrecords-guide/
+
+norm_filename = 'norm.nii.gz'
+aseg_filename = 'aseg.nii.gz'
+
+data_dir = '/home/paul/cmet/brainhack/neuroimage-tensorflow/bucker40/'
+subject_ids = ['114', '091', '130']
+
+def make_filename_pairs(data_dir, subject_id, norm_filename, aseg_filename):
+    return (os.path.join(data_dir, str(subject_id), norm_filename), \
+            os.path.join(data_dir, str(subject_id), aseg_filename))
+
+filename_pairs = [ make_filename_pairs(data_dir, s, norm_filename, aseg_filename) for s in subject_ids ]
 
 def _bytes_feature(value):
 	return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
@@ -103,14 +112,3 @@ for string_record in record_iterator:
 #                                                          reconstructed_pair)
 #    print(np.allclose(*img_pair_to_compare))
 #    print(np.allclose(*annotation_pair_to_compare))
-
-
-
-
-
-
-
-
-
-
-
